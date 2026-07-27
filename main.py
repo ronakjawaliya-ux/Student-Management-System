@@ -33,10 +33,42 @@ while True:
 
     # 1. ADD_STUDENTS
     if choice == "1":
-        student_id = int(input("Enter student ID: "))
-        name = input("Enter student name: ")
-        age = input("Enter student age: ")
-        course = input("Enter student course: ")
+
+        # Validate ID
+        try:
+            student_id = int(input("Enter student ID: "))
+        except ValueError:
+            print("Student ID must be an integer.")
+            continue
+
+        # Validate Name
+        name = input("Enter student name: ").strip()
+        if not name:
+            print("Student name cannot be empty.")
+            continue
+
+        # Validate Age
+        try:
+            age = int(input("Enter student age: "))
+        except ValueError:
+            print("Student age must be an integer.")
+            continue
+
+        # Prevent zero or negative age
+        if age <= 0:
+            print("Student age must be greater than zero.")
+            continue
+
+        if age > 120:
+            print("Student age must be 120 or less.")
+            continue
+
+        # Validate Course
+        course = input("Enter student course: ").strip()
+        if not course:
+            print("Student course cannot be empty.")
+            continue
+
 
         student = {
                  "id": student_id,
@@ -50,7 +82,7 @@ while True:
         for existing_student in students:
             if existing_student["id"] == student_id:
                  found = True
-                 print("\nStudent ID Already Exists.")
+                 print(f'\nStudent ID {existing_student["id"]} already exists.')
                  break
 
         if not found:
@@ -61,31 +93,45 @@ while True:
 
     # 2. VIEW_STUDENTS
     elif choice == "2":
-        if len(students) == 0:
+        if not students:
             print("No students found.")
         else:
+            print(f'Total Students: {len(students)}')
             print("\nStudent List:")
+            print("-----------------------------------")
             for student in students:
-                print("------------------------------------")
-                print("ID:",student["id"])
-                print("Name:",student["name"])
-                print("Age:",student["age"])
-                print("Course:",student["course"])
+                print("-----------------------------------")
+                print(f'ID        : {student["id"]}')
+                print(f'Name      : {student["name"]}')
+                print(f'Age       : {student["age"]}')
+                print(f'Course    : {student["course"]}')
+                print("-----------------------------------")
 
 
     # 3. SEARCH_STUDENTS
     elif choice == "3":
-        search_id = int(input("Enter student ID to search: "))
+
+        if not students:
+            print("No students found.")
+            continue
+
+        try:
+            search_id = int(input("Enter student ID to search: "))
+        except ValueError:
+            print("Student ID must be an integer.")
+            continue
 
         found = False
 
         for student in students:
             if student["id"] == search_id:
-                print("\nStudent Found")
-                print("ID:", student["id"])
-                print("Name:", student["name"])
-                print("Age:", student["age"])
-                print("Course:", student["course"])
+                print("\nStudent Details\n")
+                print("-----------------------------------")
+                print(f'ID        : {student["id"]}')
+                print(f'Name      : {student["name"]}')
+                print(f'Age       : {student["age"]}')
+                print(f'Course    : {student["course"]}')
+                print("-----------------------------------")
                 found = True
                 break
 
