@@ -8,6 +8,7 @@ def save_students():
     with open("students.json", "w") as file:
         json.dump(students, file, indent=4)
 
+
 def load_students():
     try:
         with open("students.json", "r") as file:
@@ -87,7 +88,7 @@ while True:
 
         if not found:
             students.append(student)
-            print("Student added successfully!")
+            print(f'Student ID {student["id"]} added successfully!')
             save_students()
 
 
@@ -98,7 +99,7 @@ while True:
         else:
             print(f'Total Students: {len(students)}')
             print("\nStudent List:")
-            print("-----------------------------------")
+
             for student in students:
                 print("-----------------------------------")
                 print(f'ID        : {student["id"]}')
@@ -141,17 +142,69 @@ while True:
 
     # 4. UPDATE_STUDENTS
     elif choice == "4":
-        update_id = int(input("Enter student ID to update: "))
+
+        if not students:
+            print("No students found.")
+            continue
+
+        # Validate ID
+        try:
+            update_id = int(input("Enter student ID to update: "))
+        except ValueError:
+            print("Student ID must be an integer.")
+            continue
+
+
 
         found = False
 
         for student in students:
             if student["id"] == update_id:
-                student["name"] = input("Enter new name: ")
-                student["age"] = input("Enter new age: ")
-                student["course"] = input("Enter new course: ")
-                print("Student updated successfully!")
+
+                print("\nStudent Details\n")
+                print("-----------------------------------")
+                print(f'ID        : {student["id"]}')
+                print(f'Name      : {student["name"]}')
+                print(f'Age       : {student["age"]}')
+                print(f'Course    : {student["course"]}')
+                print("-----------------------------------")
+
+                # Validate Name
+                name = input("Enter new name: ").strip()
+                if not name:
+                    print("Student name cannot be empty.")
+                    continue
+
+                # Validate Age
+                try:
+                    age = int(input("Enter new age: "))
+                except ValueError:
+                    print("Student age must be an integer.")
+                    continue
+
+                # Prevent zero or negative age
+                if age <= 0:
+                    print("Student age must be greater than zero.")
+                    continue
+
+                if age > 120:
+                    print("Student age must be 120 or less.")
+                    continue
+
+                # Validate Course
+                course = input("Enter new course: ").strip()
+                if not course:
+                    print("Student course cannot be empty.")
+                    continue
+
+                # Update Student
+                student["name"] = name
+                student["age"] = age
+                student["course"] = course
+
                 save_students()
+
+                print(f'Student ID {student["id"]} updated successfully!')
                 found = True
                 break
 
@@ -161,14 +214,23 @@ while True:
 
     # 5. DELETE_STUDENTS
     elif choice == "5":
-        delete_id = int(input("Enter student ID to delete: "))
+
+        if not students:
+            print("No students found.")
+            continue
+
+        try:
+            delete_id = int(input("Enter student ID to delete: "))
+        except ValueError:
+            print("Student ID must be an integer.")
+            continue
 
         found = False
 
         for student in students:
             if student["id"] == delete_id:
                 students.remove(student)
-                print("Student deleted successfully!")
+                print(f'Student ID {student["id"]} deleted successfully!')
                 save_students()
                 found = True
                 break
@@ -179,8 +241,9 @@ while True:
 
     # 6. TOTAL_STUDENTS
     elif choice == "6":
-        print("Total Students:",len(students))
-
+        print("======== Statistics =======")
+        print(f"Total Students : {len(students)}")
+        print("===========================")
 
     # 7. CLEAR_STUDENTS
     elif choice == "7":
@@ -194,7 +257,8 @@ while True:
         break
 
     else:
-        print("This option will be added later.")
+        print("Invalid choice.")
+        print("Please enter a number between 1 and 8.")
 
 
 
