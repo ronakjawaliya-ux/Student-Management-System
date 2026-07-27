@@ -98,7 +98,7 @@ while True:
             print("No students found.")
         else:
             print(f'Total Students: {len(students)}')
-            print("\nStudent List:")
+            print("\nStudent List:\n")
 
             for student in students:
                 print("-----------------------------------")
