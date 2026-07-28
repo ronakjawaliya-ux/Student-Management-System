@@ -2,8 +2,8 @@
     {
         "id": 101,
         "name": "Ronak",
-        "age": "21",
-        "course": "aiml"
+        "age": 21,
+        "course": "AIML"
     },
     {
         "id": 102,
